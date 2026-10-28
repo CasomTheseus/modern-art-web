@@ -1,0 +1,19 @@
+{
+  "name": "modern-art-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "《现代艺术》网页版多人联机游戏",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "node --test test/*.test.js && node test/smoke.js",
+    "test:unit": "node --test test/*.test.js",
+    "smoke": "node test/smoke.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}

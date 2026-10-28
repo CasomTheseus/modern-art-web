@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>现代艺术 · Modern Art</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<header class="app-header">
+  <div class="app-title">现代艺术 <span class="sub">Modern Art</span></div>
+  <div id="header-user" class="header-user"></div>
+</header>
+<div id="connection-status" class="connection-status hidden" role="status" aria-live="polite"></div>
+
+<!-- ============ 登录 / 注册 ============ -->
+<section id="view-auth" class="view">
+  <div class="auth-card">
+    <h1>现代艺术</h1>
+    <p class="auth-desc">四位房间码 · 3-5 人 · 四轮拍卖对决</p>
+    <div class="auth-tabs">
+      <button id="tab-login" class="tab active">登录</button>
+      <button id="tab-register" class="tab">注册</button>
+    </div>
+    <form id="auth-form">
+      <label for="auth-username">用户名</label>
+      <input id="auth-username" type="text" maxlength="16" autocomplete="username" required>
+      <label for="auth-password">密码</label>
+      <input id="auth-password" type="password" maxlength="72" autocomplete="current-password" required>
+      <p id="auth-error" class="error-text"></p>
+      <button id="auth-submit" class="primary wide" type="submit">登录</button>
+    </form>
+    <p class="hint">注册后战绩会保存在服务器上</p>
+  </div>
+</section>
+
+<!-- ============ 主界面 ============ -->
+<section id="view-menu" class="view hidden">
+  <div class="menu-card">
+    <h2 id="menu-welcome">欢迎</h2>
+    <div class="menu-actions">
+      <button class="menu-btn" data-nav="rules">查看规则</button>
+      <button class="menu-btn" data-nav="create">创建房间</button>
+      <button class="menu-btn" data-nav="join">加入房间</button>
+      <button class="menu-btn" data-nav="history">我的战绩</button>
+      <button class="menu-btn logout" data-nav="logout">登出</button>
+    </div>
+
+    <div id="panel-create" class="panel hidden">
+      <h3>创建房间</h3>
+      <p>选择本局玩家人数（3-5 人）：</p>
+      <div class="capacity-row">
+        <button class="cap-btn" data-cap="3">3 人</button>
+        <button class="cap-btn" data-cap="4">4 人</button>
+        <button class="cap-btn" data-cap="5">5 人</button>
+      </div>
+      <p class="hint">创建后将自动生成四位纯数字房间码</p>
+      <button id="cancel-create" class="ghost">取消</button>
+    </div>
+
+    <div id="panel-join" class="panel hidden">
+      <h3>加入房间</h3>
+      <input id="join-code" type="text" inputmode="numeric" maxlength="4" placeholder="请输入四位房间码">
+      <div class="row-buttons">
+        <button id="join-submit" class="primary">加入</button>
+        <button id="cancel-join" class="ghost">取消</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 房间等待 ============ -->
+<section id="view-room" class="view hidden">
+  <div class="room-card">
+    <h2>游戏房间</h2>
+    <div class="room-code-box">
+      <div class="room-code-label">房间码</div>
+      <div id="room-code" class="room-code"></div>
+      <button id="copy-link" class="primary">复制邀请链接</button>
+    </div>
+    <p id="room-share" class="hint"></p>
+    <div class="room-info">
+      <span id="room-count"></span>
+      <span>房主可移出玩家 / 满员后开始游戏</span>
+    </div>
+    <ul id="lobby-players" class="player-list"></ul>
+    <div class="row-buttons">
+      <button id="start-game" class="primary wide" disabled>开始游戏</button>
+      <button id="leave-room" class="ghost wide">离开房间</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 游戏 ============ -->
+<section id="view-game" class="view hidden">
+  <div class="game-topbar">
+    <div class="gt-left">
+      <span class="gt-room">房间 <b id="game-room-code"></b></span>
+      <span class="gt-round" id="game-round"></span>
+      <span class="gt-dir" id="game-dir"></span>
+    </div>
+    <div class="gt-right">
+      <span id="game-status" class="game-status"></span>
+      <button id="quit-game" class="danger small">退出对局</button>
+    </div>
+  </div>
+
+  <div id="players-strip" class="players-strip"></div>
+
+  <div class="game-main">
+    <div class="board-wrap">
+      <div class="board-title">拍卖行情板</div>
+      <div id="board" class="board"></div>
+    </div>
+    <div class="side">
+      <div id="auction-panel" class="auction-panel"></div>
+      <div class="log-wrap">
+        <div class="log-title">对局记录</div>
+        <div id="log-list" class="log-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hand-wrap">
+    <div class="hand-title">我的手牌（<span id="hand-count"></span>）</div>
+    <div id="hand" class="hand"></div>
+    <div id="hand-hint" class="hand-hint"></div>
+    <button id="play-selected" class="primary hidden">打出选中的画</button>
+  </div>
+</section>
+
+<!-- ============ 规则 ============ -->
+<section id="view-rules" class="view hidden">
+  <div class="rules-card">
+    <h2>游戏规则</h2>
+    <button class="back-to-menu ghost">← 返回主界面</button>
+    <div class="rules-body">
+      <h3>游戏目标</h3>
+      <p>你是一名艺术馆主。通过拍卖与买卖画作，在四轮结束后拥有最多现金的玩家获胜。你打出的画视为你画廊的画作：其他玩家购得时会把成交款付给你；若你自己拍回或按定价自购，款项则交给系统。</p>
+
+      <h3>准备</h3>
+      <ul>
+        <li>一局 3-5 人，房主建房生成四位房间码，满员后由房主开始。</li>
+        <li>五位艺术家 A-E（红/黄/蓝/紫/绿），共 70 张固定牌（A16/B15/C14/D13/E12）。</li>
+        <li>每人起始 100 元，各轮发牌数为：3 人 10/6/6/0 张，4 人 9/4/4/0 张，5 人 8/3/3/0 张。第四轮不补牌，弃牌不会洗回牌堆。</li>
+        <li>开局以随机点数决定第 1 轮先手，作为实体版“最年轻玩家先手”的线上替代。整局按顺时针行动，每轮结束后由上一轮先手的下家获得下一轮先手。</li>
+        <li>现金仅本人可见，最终结算时公开资产；公开交易与收益记录对所有玩家可见。</li>
+      </ul>
+
+      <h3>回合流程</h3>
+      <ul>
+        <li>按顺时针轮流行动。轮到自己时必须从手牌打出一张画拍卖，不能跳过；联合拍卖一次打出两张。</li>
+        <li>任何画作属于某位艺术家，并带五种拍卖方式之一。</li>
+        <li>成交的画（联合拍卖为两张一起）进入买家的公开区，所有玩家可见。</li>
+      </ul>
+
+      <h3>五种拍卖</h3>
+      <ul>
+        <li><b>公开拍卖</b>：所有未弃权玩家可随时自由加价，最低加价 1 元；当前最高价者不能自我加价或撤回出价，弃权后不能再叫价。只剩最高价者未弃权时成交；无人叫价且全员弃权时，画作 0 元归拍卖者。</li>
+        <li><b>一轮拍卖</b>：从当前玩家的下家开始每人一次叫价/弃权机会，当前玩家最后叫价；无人叫价则 0 元归当前玩家。</li>
+        <li><b>暗标拍卖</b>：所有玩家（含当前玩家）秘密出价 0~自己现金；全部确认后倒计时 3 秒共同亮价，再展示 3 秒后结算。价高者得；同价时从当前玩家下家起先遇者得；全部为 0 时画作归当前玩家。</li>
+        <li><b>定价拍卖</b>：当前玩家定价 0~自己现金；其他玩家沿顺时针轮流选择购买与否，先买者得；无人购买则当前玩家按定价自购。</li>
+        <li><b>联合拍卖</b>：必须绑定一张手牌中同艺术家的非联合画一起拍；lot 按被绑定画的拍卖方式进行，成交后两张一起进买家公开区。</li>
+      </ul>
+      <p class="note">所有叫价不得超过自己当前现金，现金不会为负。他人购得你的画作时，成交款支付给你；只有你自己拍回/自购时才把款项交给系统。</p>
+
+      <h3>轮次结束与结算</h3>
+      <ul>
+        <li>某艺术家当前轮公开画加上本 lot 后达到第 5 张时，整个触发 lot 弃置、不拍卖也不计入成交数量，并立即结算当轮。</li>
+        <li>结算时按本轮各艺术家公开画张数排名（同张数按 A-E 顺序靠前者优先），只对有画的颜色发价值：第 1/2/3 名分别 +30/20/10，并累加入该艺术家历史总价值。</li>
+        <li>未进前三的颜色本轮收益按 0 结算，但其历史总值保留，用于之后重新进前三时的累加。</li>
+        <li>玩家收益 = 本轮持有的该艺术家画作张数 × 该艺术家当前总价值，即时加到现金。</li>
+        <li>结算后场上所有公开画进入弃牌堆。所有玩家无牌可打时也结算当轮（兜底）。</li>
+      </ul>
+
+      <h3>胜负</h3>
+      <p>第四轮结算完成后，按现金总额排名；现金相同者并列。正常对局会记录当局玩家、最终排名与各自资产。</p>
+
+      <h3>异常处理</h3>
+      <ul>
+        <li>主动退出会立即终止整局。掉线后保留座位并提供 120 秒重连时间，其他玩家可看到离线状态；恢复连接后继续原对局，超时才终止。</li>
+        <li>异常记录包含时间、玩家名单、异常类型与触发玩家，不记录结束轮次与资产。</li>
+        <li>非法或过期操作只会被服务端拒绝，不会仅因一次输入错误而终止整局。</li>
+      </ul>
+    </div>
+    <button class="back-to-menu ghost">← 返回主界面</button>
+  </div>
+</section>
+
+<!-- ============ 战绩 ============ -->
+<section id="view-history" class="view hidden">
+  <div class="history-card">
+    <h2>我的战绩</h2>
+    <button class="back-to-menu ghost">← 返回主界面</button>
+    <div id="history-list" class="history-list"></div>
+  </div>
+</section>
+
+<div id="modal-mask" class="modal-mask hidden" role="dialog" aria-modal="true" aria-live="polite">
+  <div class="modal-box">
+    <div id="modal-content"></div>
+    <button id="modal-ok" class="primary">知道了</button>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+<script type="module" src="/app.js"></script>
+</body>
+</html>

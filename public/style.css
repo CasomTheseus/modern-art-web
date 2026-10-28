@@ -1,0 +1,454 @@
+:root {
+  --bg: #1d2130;
+  --panel: #262c3d;
+  --panel-2: #2f3750;
+  --line: #3c4663;
+  --text: #eef1f7;
+  --muted: #9aa4bd;
+  --primary: #e8b64c;
+  --primary-dark: #b98d2f;
+  --danger: #d9534f;
+  --ok: #3fae6b;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background:
+    radial-gradient(1200px 500px at 20% -10%, #343d58 0%, transparent 60%),
+    var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: filter .15s, transform .05s;
+}
+button:hover { filter: brightness(1.15); }
+button:active { transform: translateY(1px); }
+button:disabled { opacity: .45; cursor: not-allowed; }
+
+.primary {
+  background: linear-gradient(180deg, #f2c45f, var(--primary-dark));
+  color: #241c07;
+  border-color: #8a6d24;
+  font-weight: 700;
+}
+.ghost { background: transparent; }
+.danger { background: #a63633; border-color: #7c2623; }
+.small { padding: 4px 10px; font-size: 13px; }
+.wide { width: 100%; margin-top: 8px; }
+.hidden { display: none !important; }
+.error-text { color: #ff9c98; min-height: 1.2em; }
+.hint { color: var(--muted); font-size: 13px; }
+.note { color: var(--muted); font-size: 13px; font-style: italic; }
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(15, 18, 28, .55);
+}
+.app-title { font-weight: 800; font-size: 20px; letter-spacing: 2px; }
+.app-title .sub { font-size: 12px; color: var(--muted); letter-spacing: 1px; margin-left: 8px; }
+.header-user { color: var(--muted); font-size: 14px; }
+
+.view { min-height: calc(100vh - 60px); }
+
+/* ---------- 登录 ---------- */
+#view-auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 12px;
+}
+.auth-card {
+  width: 380px;
+  max-width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 28px 30px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .35);
+}
+.auth-card h1 { margin: 0 0 4px; text-align: center; font-size: 34px; letter-spacing: 8px; }
+.auth-desc { text-align: center; color: var(--muted); margin: 4px 0 18px; }
+.auth-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.tab { flex: 1; background: transparent; }
+.tab.active { background: var(--primary); color: #241c07; border-color: #8a6d24; font-weight: 700; }
+#auth-form label { display: block; margin: 10px 0 4px; color: var(--muted); font-size: 13px; }
+#auth-form input {
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #1b2030;
+  color: var(--text);
+  font: inherit;
+}
+#auth-form input:focus { outline: 2px solid var(--primary-dark); }
+
+/* ---------- 主界面 ---------- */
+#view-menu { display: flex; align-items: center; justify-content: center; padding: 40px 12px; }
+.menu-card {
+  width: 430px;
+  max-width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 26px;
+  text-align: center;
+}
+.menu-card h2 { margin: 0 0 18px; }
+.menu-actions { display: grid; gap: 10px; }
+.menu-btn { padding: 12px; font-size: 16px; background: var(--panel-2); }
+.menu-btn.logout { color: #ffb4b1; }
+.panel {
+  margin-top: 18px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  text-align: left;
+}
+.capacity-row { display: flex; gap: 10px; justify-content: center; margin: 10px 0; }
+.cap-btn { flex: 1; padding: 14px 0; font-size: 15px; }
+.panel input {
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  font-size: 20px;
+  letter-spacing: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #1b2030;
+  color: var(--text);
+}
+.row-buttons { display: flex; gap: 10px; margin-top: 12px; }
+.row-buttons .wide { flex: 1; }
+
+/* ---------- 房间 ---------- */
+#view-room { display: flex; justify-content: center; padding: 30px 12px; }
+.room-card {
+  width: 520px;
+  max-width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 26px;
+}
+.room-code-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 14px 0 6px;
+}
+.room-code-label { color: var(--muted); }
+.room-code {
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: 10px;
+  color: var(--primary);
+  font-variant-numeric: tabular-nums;
+}
+.room-info { display: flex; justify-content: space-between; color: var(--muted); font-size: 13px; margin: 8px 0; }
+.player-list { list-style: none; padding: 0; margin: 10px 0; }
+.player-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--panel-2);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 6px 0;
+}
+.badge-host { background: var(--primary); color: #241c07; border-radius: 6px; padding: 1px 7px; font-size: 12px; font-weight: 700; }
+
+/* ---------- 游戏 ---------- */
+#view-game { padding: 12px 16px 30px; }
+.game-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.gt-left, .gt-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.game-status { color: var(--primary); font-weight: 600; }
+
+.players-strip {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+}
+.player-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px;
+  min-width: 150px;
+}
+.player-card.active { border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary); }
+.player-card .p-head { display: flex; justify-content: space-between; align-items: center; gap: 4px; }
+.player-card .p-name { font-weight: 700; }
+.player-card .p-cash { color: var(--primary); font-weight: 700; font-variant-numeric: tabular-nums; }
+.player-card .p-meta { color: var(--muted); font-size: 12px; margin: 2px 0 4px; }
+.you-tag { color: var(--primary); font-size: 11px; border: 1px solid var(--primary); border-radius: 5px; padding: 0 4px; }
+.turn-tag { color: #0f0; font-size: 11px; }
+.p-lots { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; min-height: 40px; }
+
+.game-main { display: grid; grid-template-columns: minmax(480px, 1.4fr) minmax(300px, 1fr); gap: 12px; align-items: start; }
+@media (max-width: 980px) {
+  .game-main { grid-template-columns: 1fr; }
+}
+
+.board-wrap, .auction-panel, .log-wrap {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+}
+.board-title, .log-title { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+.col {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, .15);
+}
+.col-head {
+  padding: 8px 4px;
+  color: #fff;
+  text-align: center;
+  font-family: "Kaiti SC", "STKaiti", "KaiTi", "Songti SC", serif;
+}
+.col-head .artist-name { font-size: 20px; font-weight: 800; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,.35); }
+.col-head .artist-key { font-size: 13px; opacity: .9; }
+.col-count { font-size: 12px; padding: 3px 0; background: rgba(0,0,0,.22); color: #fff; text-align: center; }
+.col .cell {
+  margin: 5px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, .08);
+  color: #dfe5f2;
+  text-align: center;
+  font-size: 14px;
+  padding: 7px 2px;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.col .cell.empty { color: rgba(255,255,255,.22); }
+.col .cell.total { background: rgba(255,255,255,.16); font-weight: 800; }
+.col .cell.plus { color: #ffe9a8; }
+
+.auction-panel { margin-bottom: 12px; min-height: 150px; }
+.auction-title { font-weight: 700; margin-bottom: 6px; color: var(--primary); }
+.auction-lot { display: flex; gap: 6px; margin: 8px 0; flex-wrap: wrap; }
+.auction-info { font-size: 14px; line-height: 1.7; }
+.act-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; align-items: center; }
+.act-row input {
+  width: 130px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #1b2030;
+  color: var(--text);
+  font: inherit;
+}
+.auction-wait { color: var(--muted); font-size: 14px; }
+.sealed-status { color: var(--muted); font-size: 13px; }
+
+.log-list { max-height: 220px; overflow-y: auto; font-size: 12.5px; color: #c7cfdf; }
+.log-list div { padding: 2px 0; border-bottom: 1px dotted rgba(255,255,255,.05); }
+
+.hand-wrap {
+  margin-top: 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+}
+.hand-title { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+.hand { display: flex; gap: 8px; flex-wrap: wrap; min-height: 120px; }
+.hand-hint { color: var(--primary); font-size: 13px; margin-top: 6px; min-height: 18px; }
+
+.card {
+  width: 86px;
+  height: 118px;
+  border-radius: 8px;
+  border: 2px solid rgba(255,255,255,.75);
+  background: var(--c, #888);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 2px;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .3);
+  cursor: pointer;
+  position: relative;
+  text-shadow: 0 1px 3px rgba(0,0,0,.4);
+}
+.card.small { width: 46px; height: 62px; font-size: 10px; padding: 3px 1px; cursor: default; }
+.card .card-artist { font-family: "Kaiti SC", "STKaiti", "KaiTi", serif; font-size: 15px; }
+.card.small .card-artist { font-size: 10px; }
+.card .card-type { font-size: 11px; background: rgba(0,0,0,.28); border-radius: 5px; padding: 1px 6px; }
+.card.small .card-type { font-size: 8px; padding: 0 3px; }
+.card.selected { outline: 3px solid var(--primary); transform: translateY(-6px); }
+.card.partner-ok { box-shadow: 0 0 0 3px var(--ok); }
+.card.doubled { transform: rotate(-6deg); }
+.card.lot-double { transform: rotate(-8deg); }
+
+/* ---------- 规则 / 战绩 ---------- */
+#view-rules, #view-history { display: flex; justify-content: center; padding: 24px 12px; }
+.rules-card, .history-card {
+  width: 820px;
+  max-width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px;
+}
+.rules-body { line-height: 1.8; color: #d7ddea; }
+.rules-body h3 { color: var(--primary); margin: 20px 0 6px; }
+.history-list { margin-top: 16px; display: grid; gap: 10px; }
+.match-item { background: var(--panel-2); border-radius: 10px; padding: 12px; font-size: 14px; }
+.match-item .m-head { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; margin-bottom: 6px; flex-wrap: wrap; gap: 6px; }
+.match-item .m-type-normal { color: var(--ok); font-weight: 700; }
+.match-item .m-type-abnormal { color: #ff9c98; font-weight: 700; }
+
+/* ---------- 弹窗 / toast / 骰子 ---------- */
+.modal-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 12, 20, .75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+.modal-box {
+  width: 420px;
+  max-width: 92vw;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+}
+.modal-box .primary { margin-top: 12px; }
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+  background: #333a52;
+  border: 1px solid var(--line);
+  color: var(--text);
+  padding: 10px 18px;
+  border-radius: 20px;
+  z-index: 80;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .4);
+}
+
+.dice-overlay { text-align: center; padding: 10px 0; }
+.dice {
+  width: 110px;
+  height: 110px;
+  margin: 14px auto;
+  border-radius: 18px;
+  background: #fff;
+  color: #222;
+  font-size: 62px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,.4);
+}
+.dice.rolling { animation: diceShake .25s linear infinite; }
+@keyframes diceShake {
+  0% { transform: rotate(-8deg) translateY(-2px); }
+  50% { transform: rotate(8deg) translateY(2px); }
+  100% { transform: rotate(-8deg) translateY(-2px); }
+}
+.results-list { list-style: none; padding: 0; margin: 12px 0 0; text-align: left; }
+.results-list li { display: flex; justify-content: space-between; padding: 8px 10px; background: var(--panel-2); border-radius: 8px; margin: 6px 0; }
+.result-rank-1 { color: var(--primary); font-weight: 900; }
+
+.link-text {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #1b2030;
+  color: #9fd0ff;
+  font-size: 12px;
+  word-break: break-all;
+}
+
+.connection-status {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  padding: 8px 16px;
+  text-align: center;
+  color: #241c07;
+  background: var(--primary);
+  font-size: 14px;
+}
+
+.board-wrap { overflow-x: auto; }
+.board { min-width: 480px; }
+.lot-cards { display: flex; gap: 2px; }
+.cash-hidden { color: var(--muted); font-size: 12px; }
+.offline-tag { color: #ffb4b1; }
+.player-card.offline { opacity: .68; border-style: dashed; }
+
+button:focus-visible, input:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .app-header { padding: 10px 12px; }
+  #view-game { padding: 8px 8px 24px; }
+  .game-topbar { align-items: flex-start; }
+  .players-strip { grid-auto-columns: minmax(150px, 62vw); }
+  .board { min-width: 520px; }
+  .card { width: 76px; height: 106px; }
+  .act-row input { flex: 1; min-width: 110px; }
+  .room-code { font-size: 34px; }
+  .room-code-box { flex-wrap: wrap; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
